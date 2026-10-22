@@ -54,6 +54,9 @@ setup(
             "drift_detect = py_examples.drift_detect:main",
             "pcd_to_cloud = py_examples.pcd_to_cloud:main",
             "robot = py_examples.robot:main",
+            "upper_body_control = py_examples.upper_body_control:main",
+            "omnihand_touch = py_examples.omnihand_touch:main",
+            "omnihand_control2 = py_examples.omnihand_control2:main",
         ],
     },
 )

@@ -80,10 +80,9 @@ def generate_launch_description():
     from_inactive_to_active = launch.actions.RegisterEventHandler(
         launch_ros.event_handlers.OnStateTransition(
             target_lifecycle_node=lidar_localization,
-            start_state = 'configuring',
             goal_state='inactive',
             entities=[
-                launch.actions.LogInfo(msg="-- Inactive --"),
+                launch.actions.LogInfo(msg="-- Inactive to Active --"),
                 launch.actions.EmitEvent(event=launch_ros.events.lifecycle.ChangeState(
                     lifecycle_node_matcher=launch.events.matches_action(lidar_localization),
                     transition_id=lifecycle_msgs.msg.Transition.TRANSITION_ACTIVATE,

@@ -518,6 +518,10 @@ void PCLLocalization::cloudReceived(const sensor_msgs::msg::PointCloud2::ConstSh
       tmp.push_back(p);
     }
   }
+  if (tmp.size() < 20) {
+    RCLCPP_WARN(get_logger(), "Filtered point cloud has too few points: %lu", tmp.size());
+    return;
+  }
   pcl::PointCloud<pcl::PointXYZI>::Ptr tmp_ptr(new pcl::PointCloud<pcl::PointXYZI>(tmp));
   registration_->setInputSource(tmp_ptr);
 
@@ -621,6 +625,8 @@ void PCLLocalization::cloudReceived(const sensor_msgs::msg::PointCloud2::ConstSh
     double cos_angle = 0.5 *
       (final_transformation.coeff(0,
       0) + final_transformation.coeff(1, 1) + final_transformation.coeff(2, 2) - 1);
+    init_cos_angle = std::max(-1.0, std::min(1.0, init_cos_angle));
+    cos_angle = std::max(-1.0, std::min(1.0, cos_angle));
     double init_angle = acos(init_cos_angle);
     double angle = acos(cos_angle);
     // Ref:https://twitter.com/Atsushi_twi/status/1185868416864808960

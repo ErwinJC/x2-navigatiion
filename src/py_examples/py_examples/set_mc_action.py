@@ -6,7 +6,7 @@ import rclpy.logging
 from rclpy.node import Node
 
 from aimdk_msgs.srv import SetMcAction
-from aimdk_msgs.msg import RequestHeader, CommonState, McAction, McActionCommand
+from aimdk_msgs.msg import RequestHeader, CommonState, McActionCommand
 
 
 class SetMcActionClient(Node):
@@ -26,7 +26,9 @@ class SetMcActionClient(Node):
     def send_request(self, action_name: str):
         req = SetMcAction.Request()
         req.header = RequestHeader()
-
+        if hasattr(req, 'source'):
+            req.source = 'node.set_mc_action'
+        #
         cmd = McActionCommand()
         cmd.action_desc = action_name
         req.command = cmd
@@ -49,11 +51,13 @@ class SetMcActionClient(Node):
             self.get_logger().error('❌ Service call failed or timed out.')
             return
 
+        # SUCCESS (1)
         if response.response.status.value == CommonState.SUCCESS:
             self.get_logger().info('✅ Robot mode set successfully.')
         else:
             self.get_logger().error(
-                f'❌ Failed to set robot mode: {response.response.message}'
+                f'❌ Failed (code={response.response.header.code}): '
+                f'{response.response.message}'
             )
 
 
@@ -64,6 +68,8 @@ def main(args=None):
         'JOINT_DEFAULT': ('JD', 'Position Control Stand (joints locked)'),
         'STAND_DEFAULT': ('SD', 'Stable Stand (auto-balance)'),
         'LOCOMOTION_DEFAULT': ('LD', 'locomotion mode (walk or run)'),
+        'HEAD_ONLY': ('HO', 'head-only control'),
+        'UPPERBODY_REMOTE_SPLIT': ('URS', 'upper body remote split (head + arms + hands)'),
     }
 
     choices = {}

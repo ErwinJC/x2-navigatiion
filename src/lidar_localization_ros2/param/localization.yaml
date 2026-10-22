@@ -12,15 +12,15 @@
       scan_min_range: 0.2
       scan_period: 0.1
       use_pcd_map: true
-      map_path: "/home/ubuntu/agibot_ws/src/spark-fast-lio/spark_fast_lio/PCD/map_merged.pcd"
-      set_initial_pose: true
+      map_path: "/home/jing/VLA_reproduce/openpi/x2/X2-omnihand/aimdk/agibot-x2-navigation/src/spark-fast-lio/spark_fast_lio/PCD/map_merged.pcd"
+      set_initial_pose: false
       initial_pose_x: 0.0
       initial_pose_y: 0.0
       initial_pose_z: 0.0
       initial_pose_qx: 0.0
       initial_pose_qy: 0.0
       initial_pose_qz: 0.0
-      initial_pose_qw: 0.0
+      initial_pose_qw: 1.0
       use_odom: false
       use_imu: false
       enable_debug: true
